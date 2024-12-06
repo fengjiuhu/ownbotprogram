@@ -3,15 +3,24 @@
 import time
 from web3 import Web3
 from sqlalchemy.orm import Session
-from db import get_db
+from ..db import get_db
 from models import Wallet, Transaction, User
 from config import ETH_NODE_URL, TELEGRAM_TOKEN, ETHERSCAN_API_KEY
 from telegram import Bot
 from datetime import datetime
 import requests
+from apscheduler.schedulers.background import BackgroundScheduler
+import logging
 
 eth_web3 = Web3(Web3.HTTPProvider(ETH_NODE_URL))
 bot = Bot(token=TELEGRAM_TOKEN)
+
+# 设置日志配置
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s', handlers=[
+    logging.FileHandler("wallet_scan.log"),
+    logging.StreamHandler()
+])
+logger = logging.getLogger()
 
 # 全局时间标记，用于记录上次 API 调用的时间
 last_api_call_time = 0
@@ -40,10 +49,10 @@ def get_eth_transactions(wallet_addresses):
         if data['status'] == '1':
             return data['result']  # 返回交易列表
         else:
-            print(f"错误：{data['message']}")
+            logger.error(f"错误：{data['message']}")
             return []
     except Exception as e:
-        print(f"获取交易时出错：{e}")
+        logger.error(f"获取交易时出错：{e}")
         return []
 
 def monitor_eth_wallets():
@@ -96,7 +105,19 @@ def monitor_eth_wallets():
                     f"数量：{transaction.get('value', '未知')}"
                 )
                 bot.send_message(chat_id=user_id, text=message, parse_mode='Markdown')
-                print(f"已通知用户 {user_id} 有新的交易。")
+                logger.info(f"已通知用户 {user_id} 有新的交易。")
 
     db_session.close()
 
+# 启动调度器
+scheduler = BackgroundScheduler()
+scheduler.add_job(monitor_eth_wallets, 'interval', seconds=10)  # 每 10 秒执行一次
+scheduler.start()
+
+# 保持主线程运行
+try:
+    while True:
+        time.sleep(1)
+except (KeyboardInterrupt, SystemExit):
+    scheduler.shutdown()
+    logger.info("调度器已关闭。")

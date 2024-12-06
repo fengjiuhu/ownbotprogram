@@ -11,14 +11,14 @@ nltk==3.6.5  # Natural language processing library for text handling
 # Database dependencies
 SQLAlchemy==1.4.27  # Database ORM for SQL databases
 psycopg2-binary==2.9.1  # PostgreSQL adapter for Python
+alembic
 
 # Blockchain dependencies
 web3==5.29.0  # Web3.py for Ethereum and Binance Smart Chain
-solana==0.16.0  # Solana RPC API Client
-tronpy==0.2.5  # Tron blockchain Python client
+solana==0.16.0  # Solana RPC API Client compatible with tronpy
 
 # Scheduler and utilities
-APScheduler==3.7.0  # Advanced Python Scheduler
+APScheduler==3.6.3  # Advanced Python Scheduler compatible with python-telegram-bot
 python-dotenv==0.19.2  # Load environment variables from a .env file
 
 # Testing
