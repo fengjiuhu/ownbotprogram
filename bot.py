@@ -1,6 +1,6 @@
 # bot.py
 
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram.ext import Updater, CommandHandler, MessageHandler, filters
 from config import TELEGRAM_TOKEN
 from handlers import start, help_command, add_wallet, remove_wallet, list_wallets
 
