@@ -1,7 +1,7 @@
 # models.py
 
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, BigInteger, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, BigInteger, Integer, String, DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 import datetime
 
@@ -26,7 +26,7 @@ class Wallet(Base):
     wallet_address = Column(String, index=True)
     blockchain_type = Column(String)
     added_at = Column(DateTime, default=datetime.datetime.utcnow)
-
+    monitor = Column(Boolean, default=True)
     owner = relationship("User", back_populates="wallets")
     transactions = relationship("Transaction", back_populates="wallet")
 

@@ -18,3 +18,6 @@ BSC_NODE_URL = os.getenv('BSC_NODE_URL')
 TRON_NODE_URL = os.getenv('TRON_NODE_URL')
 SOLANA_NODE_URL = os.getenv('SOLANA_NODE_URL')
 SUI_NODE_URL = os.getenv('SUI_NODE_URL')
+
+# Etherscan API Key
+ETHERSCAN_API_KEY = os.getenv('ETHERSCAN_API_KEY')

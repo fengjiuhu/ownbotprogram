@@ -2,6 +2,7 @@
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from db import get_db
+from eth_monitor import monitor_eth_wallets
 from models import Wallet, Transaction, User
 from blockchain import eth_bsc, tron, solana, sui
 from telegram import Bot
@@ -76,3 +77,6 @@ def start_scheduler():
     scheduler.add_job(check_transactions, 'interval', minutes=1)
     scheduler.start()
     logger.info("调度器已启动，每一分钟检查一次交易。")
+
+if __name__ == '__main__':
+    start_scheduler()
