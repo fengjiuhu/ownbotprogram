@@ -24,7 +24,7 @@ Steps
 Clone the Repository
 
 
-git clone https://github.com/yourusername/yourrepository.git
+git clone https://github.com/fengjiuhu/ownbotprogram.git
 cd yourrepository
 Install Dependencies
 
