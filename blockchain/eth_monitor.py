@@ -1,16 +1,21 @@
 # eth_monitor.py
 
 import time
+import sys
+import os
 from web3 import Web3
 from sqlalchemy.orm import Session
-from ..db import get_db
-from models import Wallet, Transaction, User
-from config import ETH_NODE_URL, TELEGRAM_TOKEN, ETHERSCAN_API_KEY
 from telegram import Bot
 from datetime import datetime
 import requests
 from apscheduler.schedulers.background import BackgroundScheduler
 import logging
+
+# 获取项目根目录并添加到 Python 路径
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from db import get_db
+from models import Wallet, Transaction, User
+from config import ETH_NODE_URL, TELEGRAM_TOKEN, ETHERSCAN_API_KEY
 
 eth_web3 = Web3(Web3.HTTPProvider(ETH_NODE_URL))
 bot = Bot(token=TELEGRAM_TOKEN)
